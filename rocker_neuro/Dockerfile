@@ -35,8 +35,9 @@ RUN r -e 'devtools::install_github("stnava/cmaker")'
 
 # # RUN r -e 'devtools::install_github("stnava/ANTsR")'    
 
+# RUN apt-get update
 
-# RUN apt-get build-dep -y r-cran-rgl 
+RUN apt-get install -y r-cran-rgl 
 
 RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz \
 && tar xzvf cmake-2.8.9.tar.gz \
@@ -79,6 +80,6 @@ r -e 'devtools::install_github("muschellij2/dcm2niir")' \
 
 # ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/fsl/5.0
 
-# CMD ["bash"]
+CMD ["bash"]
 
 
