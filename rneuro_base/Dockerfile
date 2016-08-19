@@ -111,7 +111,9 @@ RUN r -e 'devtools::install_github("muschellij2/extrantsr", ref = "b9959a2df000c
 
 ENV ZLIB_VERSION    1.2.8
 
-RUN r -e 'devtools::install_github("muschellij2/dcm2niir")'
+RUN \
+r -e 'devtools::install_github("muschellij2/dcm2niir")' \
+&& r -e 'library(dcm2niir); install_dcm2nii();'
 
 # Installing ZLIB
 # RUN wget http://zlib.net/zlib-$ZLIB_VERSION.tar.gz  && \
