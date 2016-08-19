@@ -7,9 +7,9 @@ RUN wget -O- http://neuro.debian.net/lists/wily.us-tn.full | tee /etc/apt/source
 RUN apt-get update \
     && apt-get install -y fsl-complete
 
-ENV FSLDIR=/usr/local/fsl;
-ENV FSLSHARE=/usr/share/data;
-ENV PATH=$PATH:${FSLDIR}/bin;
+ENV FSLDIR=/usr/local/fsl
+ENV FSLSHARE=/usr/share/data
+ENV PATH=$PATH:${FSLDIR}/bin
 
 RUN mkdir -p ${FSLDIR}/bin  \
 && cp /usr/lib/fsl/5.0/* ${FSLDIR}/bin/
@@ -24,22 +24,21 @@ RUN mkdir -p ${FSLDIR}/data/standard \
 # Setting things up like other installers
 #######################################
 # setting up standard
-RUN cp ${FSLSHARE}/fsl-mni152-templates/* ${FSLDIR}/data/standard/
+RUN cp -R ${FSLSHARE}/fsl-mni152-templates/* ${FSLDIR}/data/standard/
 
 # setting up atlases
 RUN \
-cp ${FSLSHARE}/harvard-oxford-atlases/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/juelich-histological-atlas/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/bangor-cerebellar-atlas/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/jhu-dti-whitematter-atlas/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/forstmann-subthalamic-nucleus-atlas/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/fsl-resting-connectivity-parcellation-atlases/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/mni-structural-atlas/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/oxford-thalamic-connectivity-atlas/* ${FSLDIR}/data/atlases/ \
-&& cp ${FSLSHARE}/talairach-daemon-atlas/* ${FSLDIR}/data/atlases/ 
+cp -R ${FSLSHARE}/harvard-oxford-atlases/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/juelich-histological-atlas/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/bangor-cerebellar-atlas/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/jhu-dti-whitematter-atlas/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/forstmann-subthalamic-nucleus-atlas/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/fsl-resting-connectivity-parcellation-atlases/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/mni-structural-atlas/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/oxford-thalamic-connectivity-atlas/* ${FSLDIR}/data/atlases/ \
+&& cp -R ${FSLSHARE}/talairach-daemon-atlas/* ${FSLDIR}/data/atlases/ 
 
 
-ENV PATH=$PATH:${FSLDIR}/bin;
 ENV FSLOUTPUTTYPE=NIFTI_GZ
 
 RUN usermod -u 504 docker
