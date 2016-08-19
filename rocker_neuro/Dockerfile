@@ -28,9 +28,6 @@ RUN r -e 'devtools::install_github("muschellij2/fslr", ref = "7a2136dd087b1e4f19
 
 RUN r -e 'devtools::install_github("stnava/cmaker")' 
 
-# RUN apt-get update && \
-# apt-get install -y git-core
-
 # # RUN r -e 'devtools::install_github("stnava/ITKR")' 
 
 # # RUN r -e 'devtools::install_github("stnava/ANTsR")'    
@@ -46,6 +43,9 @@ RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz \
 && make \
 && make install \ 
 && cd ../
+
+RUN apt-get update && \
+apt-get install -y git-core
 
 # RUN apt-get install -y cmake-curses-gui
 
