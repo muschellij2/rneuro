@@ -6,14 +6,14 @@ RUN apt-get install -y gnupg2 gnupg
 # RUN wget -O- http://neuro.debian.net/lists/wily.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
 #  && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
 
-# RUN wget -O- http://neuro.debian.net/lists/stretch.us-ca.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
-# && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
-
-RUN wget -O- http://neuro.debian.net/lists/sid.us-ca.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
+RUN wget -O- http://neuro.debian.net/lists/sid.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
 && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
 
+# RUN wget -O- http://neuro.debian.net/lists/sid.us-ca.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
+# && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
+
 RUN apt-get update \
-    && apt-get install -y fsl-complete
+    && apt-get install -y fsl-5.0-core
 
 ENV FSLDIR=/usr/local/fsl
 ENV FSLSHARE=/usr/share/data
