@@ -120,6 +120,7 @@ r -e 'devtools::install_github("muschellij2/dcm2niir")' \
 
 RUN r -e 'devtools::install_github("muschellij2/hcp")'
 
-
-
+## Install divest package
+RUN install.r \
+    divest 
 
