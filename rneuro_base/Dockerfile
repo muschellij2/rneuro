@@ -66,27 +66,10 @@ RUN install.r \
     # base64enc \
     # readr
 
-
-## Manually install (useful packages from) the SUGGESTS list of the above packages.
-## (because --deps TRUE can fail when packages are added/removed from CRAN)
-# RUN install.r \
-#     data.table \
-#     downloader \
-#     git2r \
-#     MASS \
-#     Rcpp \
-#     roxygen2 \
-#   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
-
 RUN apt-get update && \
 apt-get install -y git-core
 
-# RUN r -e 'devtools::install_github("stnava/ITKR")' 
 
-# RUN r -e 'devtools::install_github("stnava/ANTsR")'    
-
-
-RUN apt-get build-dep -y r-cran-rgl 
 
 RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz \
 && tar xzvf cmake-2.8.9.tar.gz \
@@ -101,6 +84,8 @@ RUN apt-get install -y cmake-curses-gui
 ##############################
 # All the R packages
 ##############################
+RUN apt-get build-dep -y r-cran-rgl 
+
 RUN r -e 'devtools::install_github("muschellij2/oro.nifti")' 
 
 RUN r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite(pkgs = c("Biobase"), suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
@@ -118,6 +103,11 @@ r -e 'library(WhiteStripe); download_img_data()'
 
 # RUN r -e 'devtools::install_github("muschellij2/extrantsr", ref = "337095449ce0fa7b85be82bb52090470dfe098dc");'
 # RUN r -e 'devtools::install_github("muschellij2/extrantsr", ref = "b9959a2df000c4746fa27a0a7e22caee33c1b0f9");'
+
+# RUN r -e 'devtools::install_github("stnava/ITKR")' 
+
+# RUN r -e 'devtools::install_github("stnava/ANTsR")'    
+
 RUN r -e 'devtools::install_github("muschellij2/extrantsr")'
 
 ENV ZLIB_VERSION    1.2.8
@@ -131,29 +121,5 @@ r -e 'devtools::install_github("muschellij2/dcm2niir")' \
 RUN r -e 'devtools::install_github("muschellij2/hcp")'
 
 
-
-# Installing ZLIB
-# RUN wget http://zlib.net/zlib-$ZLIB_VERSION.tar.gz  && \
-#     tar -xzf zlib-$ZLIB_VERSION.tar.gz -C /usr/lib/  && \
-#     rm /zlib-$ZLIB_VERSION.tar.gz  && \
-#     ln -s /usr/lib/zlib-$ZLIB_VERSION /usr/lib/zlib  && \
-#     cd /usr/lib/zlib  && \
-#     ./configure  && \
-#     make
-# ENV ZLIB_LIBRARY /usr/lib/zlib
-
-# RUN r -e 'devtools::install_github("muschellij2/drammsr")' 
-
-# RUN wget -O- http://neuro.debian.net/lists/wily.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
-#  && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
-
-# RUN apt-get update \
-#     && apt-get install -y fsl-core
-    
-# RUN usermod -u 504 docker
-
-# ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/fsl/5.0
-
-# CMD ["bash"]
 
 
