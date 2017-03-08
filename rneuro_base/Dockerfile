@@ -78,14 +78,6 @@ RUN install.r \
 #     roxygen2 \
 #   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-RUN r -e 'devtools::install_github("muschellij2/oro.nifti")' 
-
-RUN r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite(pkgs = c("Biobase"), suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
-
-RUN r -e 'devtools::install_github("muschellij2/fslr")
-
-# RUN r -e 'devtools::install_github("stnava/cmaker")' 
-
 RUN apt-get update && \
 apt-get install -y git-core
 
@@ -106,7 +98,24 @@ RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz \
 
 RUN apt-get install -y cmake-curses-gui
 
-RUN r -e 'install_github("muschellij2/WhiteStripe")'
+##############################
+# All the R packages
+##############################
+RUN r -e 'devtools::install_github("muschellij2/oro.nifti")' 
+
+RUN r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite(pkgs = c("Biobase"), suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
+
+RUN r -e 'devtools::install_github("muschellij2/fslr")
+
+# RUN r -e 'devtools::install_github("stnava/cmaker")' 
+
+
+RUN r -e 'devtools::install_github("muschellij2/neurobase")'
+
+RUN \
+r -e 'install_github("muschellij2/WhiteStripe")' \
+r -e 'library(WhiteStripe); download_img_data()'
+
 # RUN r -e 'devtools::install_github("muschellij2/extrantsr", ref = "337095449ce0fa7b85be82bb52090470dfe098dc");'
 # RUN r -e 'devtools::install_github("muschellij2/extrantsr", ref = "b9959a2df000c4746fa27a0a7e22caee33c1b0f9");'
 RUN r -e 'devtools::install_github("muschellij2/extrantsr")'
@@ -117,7 +126,6 @@ RUN \
 r -e 'devtools::install_github("muschellij2/dcm2niir")' \
 && r -e 'library(dcm2niir); install_dcm2nii();'
 
-RUN r -e 'devtools::install_github("muschellij2/neurobase")'
 
 RUN r -e 'devtools::install_github("muschellij2/malf.templates")'
 
