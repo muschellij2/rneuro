@@ -92,23 +92,16 @@ RUN r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite
 
 RUN r -e 'devtools::install_github("muschellij2/fslr")
 
-# RUN r -e 'devtools::install_github("stnava/cmaker")' 
-
-
 RUN r -e 'devtools::install_github("muschellij2/neurobase")'
 
 RUN \
 r -e 'install_github("muschellij2/WhiteStripe")' \
 r -e 'library(WhiteStripe); download_img_data()'
 
-# RUN r -e 'devtools::install_github("muschellij2/extrantsr", ref = "337095449ce0fa7b85be82bb52090470dfe098dc");'
-# RUN r -e 'devtools::install_github("muschellij2/extrantsr", ref = "b9959a2df000c4746fa27a0a7e22caee33c1b0f9");'
-
 # RUN r -e 'devtools::install_github("stnava/ITKR")' 
 
 # RUN r -e 'devtools::install_github("stnava/ANTsR")'    
 
-RUN r -e 'devtools::install_github("muschellij2/extrantsr")'
 
 ENV ZLIB_VERSION    1.2.8
 
