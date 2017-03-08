@@ -1,6 +1,6 @@
 ## Emacs, make this -*- mode: sh; -*-
 ### RNEURO
-FROM muschellij2/rneuro_base
+FROM muschellij2/rneuro_ants
 
 #####################
 # Getting Kirby data stuff
