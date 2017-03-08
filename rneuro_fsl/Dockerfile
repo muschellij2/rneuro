@@ -1,5 +1,5 @@
 ### RNEURO with FSL
-FROM muschellij2/rneuro
+FROM muschellij2/rneuro_base
 
 RUN wget -O- http://neuro.debian.net/lists/wily.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
  && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
