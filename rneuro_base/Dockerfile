@@ -126,8 +126,7 @@ RUN \
 r -e 'devtools::install_github("muschellij2/dcm2niir")' \
 && r -e 'library(dcm2niir); install_dcm2nii();'
 
-
-RUN r -e 'devtools::install_github("muschellij2/malf.templates")'
+# RUN r -e 'devtools::install_github("muschellij2/malf.templates")'
 
 RUN r -e 'devtools::install_github("muschellij2/hcp")'
 
