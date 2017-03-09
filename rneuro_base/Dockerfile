@@ -97,9 +97,12 @@ RUN r -e 'devtools::install_github("muschellij2/neurobase")'
 
 RUN r -e 'devtools::install_github("muschellij2/fslr")'
 
-RUN \
-r -e 'devtools::install_github("muschellij2/WhiteStripe")' \
-&& r -e 'library(WhiteStripe); download_img_data()'
+RUN install.r \
+    WhiteStripe  
+# RUN \
+# r -e 'devtools::install_github("muschellij2/WhiteStripe")' \
+# && r -e 'library(WhiteStripe); download_img_data()'
+RUN r -e 'library(WhiteStripe); download_img_data()'
 
 # RUN r -e 'devtools::install_github("stnava/ITKR")' 
 
