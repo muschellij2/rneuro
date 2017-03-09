@@ -1,8 +1,7 @@
 ## Emacs, make this -*- mode: sh; -*-
 ### RNEURO
 # FROM ubuntu:wily
-# FROM ubuntu:yakkety
-FROM ubuntu:xenial
+FROM ubuntu:yakkety
 
 ## Set a default user. Available via runtime flag `--user docker` 
 ## Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
@@ -88,12 +87,14 @@ RUN apt-get install -y cmake-curses-gui
 ##############################
 RUN apt-get build-dep -y r-cran-rgl 
 
-RUN install.r \
-    RNifti \
-    oro.nifti 
 
 RUN r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite(pkgs = c("Biobase"), suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
 
+
+RUN install.r \
+    RNifti \
+    oro.nifti 
+    
 RUN r -e 'devtools::install_github("muschellij2/neurobase")'
 
 RUN r -e 'devtools::install_github("muschellij2/fslr")'
