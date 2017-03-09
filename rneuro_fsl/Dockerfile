@@ -2,6 +2,7 @@
 FROM muschellij2/rneuro_base
 
 RUN apt-get install -y gnupg2 gnupg
+
 RUN apt-get install -y dirmngr
 
 RUN wget -O- http://neuro.debian.net/lists/xenial.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
@@ -10,8 +11,9 @@ RUN apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
 # RUN wget -O- http://neuro.debian.net/lists/yakkety.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
 # && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
 
-RUN apt-get update \
-    && apt-get install -y fsl-complete
+RUN apt-get update 
+
+RUN apt-get install -y fsl-complete
 
 ENV FSLDIR=/usr/local/fsl
 ENV FSLSHARE=/usr/share/data
