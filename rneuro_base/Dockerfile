@@ -87,7 +87,7 @@ RUN apt-get install -y cmake-curses-gui
 ##############################
 RUN apt-get build-dep -y r-cran-rgl 
 
-RUN r -e 'devtools::install_github("muschellij2/oro.nifti")' 
+RUN r -e 'devtools::install_github("muschellij2/oro.nifti")'
 
 RUN r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite(pkgs = c("Biobase"), suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
 
