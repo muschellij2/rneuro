@@ -93,9 +93,9 @@ RUN install.r \
 
 RUN r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite(pkgs = c("Biobase"), suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
 
-RUN r -e 'devtools::install_github("muschellij2/fslr")'
-
 RUN r -e 'devtools::install_github("muschellij2/neurobase")'
+
+RUN r -e 'devtools::install_github("muschellij2/fslr")'
 
 RUN \
 r -e 'devtools::install_github("muschellij2/WhiteStripe")' \
