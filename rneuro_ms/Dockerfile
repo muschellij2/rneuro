@@ -2,4 +2,5 @@
 ### RNEURO
 FROM muschellij2/rneuro_ants
 
-RUN r -e 'devtools::install_github("muschellij2/ms.lesion")'
+RUN bash
+# RUN r -e 'devtools::install_github("muschellij2/ms.lesion")'
