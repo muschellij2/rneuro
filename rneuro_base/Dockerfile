@@ -20,6 +20,7 @@ RUN apt-get update \
         ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
+
 ## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen en_US.utf8 \
@@ -27,7 +28,7 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
-ENV R_BASE_VERSION 3.3.1
+ENV R_BASE_VERSION 3.3.2
 
 ## Now install R and littler, and create a link for littler in /usr/local/bin
 ## Also set a default CRAN repo, and make sure littler knows about it too
@@ -129,6 +130,4 @@ RUN r -e 'devtools::install_github("muschellij2/fslr")'
 ENV ZLIB_VERSION    1.2.8
 
 # RUN r -e 'devtools::install_github("muschellij2/malf.templates")'
-
-
 
