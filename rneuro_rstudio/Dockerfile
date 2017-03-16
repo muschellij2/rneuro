@@ -2,7 +2,7 @@
 ### RNEURO
 # FROM ubuntu:wily
 # FROM ubuntu:yakkety
-FROM muschellij2/rneuro_base
+FROM muschellij2/rneuro_ms
 
 ENV RSTUDIO_VERSION 1.0.136
 ARG PANDOC_TEMPLATES_VERSION 
