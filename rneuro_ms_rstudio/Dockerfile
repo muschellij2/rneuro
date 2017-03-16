@@ -53,11 +53,11 @@ RUN mkdir -p /etc/R \
     \n}' >> /usr/local/lib/R/site-library/Rprofile.site \
   && echo "PATH=\"${PATH}\"" >> /usr/local/lib/R/site-library/Renviron \
   ## Need to configure non-root user for RStudio
-  && useradd rstudio \
-  && echo "rstudio:rstudio" | chpasswd \
-    && mkdir /home/rstudio \
-    && chown rstudio:rstudio /home/rstudio \
-    && addgroup rstudio staff \
+  && useradd docker \
+  && echo "docker:docker" | chpasswd \
+    # && mkdir /home/rstudio \
+    # && chown rstudio:rstudio /home/rstudio \
+    # && addgroup rstudio staff \
   ## configure git not to request password each time 
   && git config --system credential.helper 'cache --timeout=3600' \
   && git config --system push.default simple \
