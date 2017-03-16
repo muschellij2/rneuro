@@ -1,7 +1,5 @@
 ## Emacs, make this -*- mode: sh; -*-
 ### RNEURO
-# FROM ubuntu:wily
-# FROM ubuntu:yakkety
 FROM muschellij2/rneuro_ms
 
 ENV RSTUDIO_VERSION 1.0.136
