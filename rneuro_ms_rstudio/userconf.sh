@@ -3,7 +3,7 @@
 ## Set defaults for environmental variables in case they are undefined
 USER=${USER:=docker}
 PASSWORD=${PASSWORD:=docker}
-USERID=${USERID:=1001}
+USERID=${USERID:=504}
 GROUPID=${GROUPID:=1000}
 ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}

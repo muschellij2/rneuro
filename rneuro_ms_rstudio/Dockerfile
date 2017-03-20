@@ -33,6 +33,8 @@ RUN \
   && gdebi --non-interactive rstudio-server-${RSTUDIO_VERSION}-amd64.deb \
   && rm rstudio-server-*-amd64.deb 
   ## Symlink pandoc & standard pandoc templates for use system-wide
+RUN echo "docker:docker" | chpasswd
+
 RUN ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin \
   && ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin \
   && wget https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz \
@@ -53,8 +55,7 @@ RUN mkdir -p /etc/R \
     \n}' >> /usr/local/lib/R/site-library/Rprofile.site \
   && echo "PATH=\"${PATH}\"" >> /usr/local/lib/R/site-library/Renviron \
   ## Need to configure non-root user for RStudio
-  && useradd docker \
-  && echo "docker:docker" | chpasswd \
+  # && useradd rstudio \
     # && mkdir /home/rstudio \
     # && chown rstudio:rstudio /home/rstudio \
     # && addgroup rstudio staff \
@@ -72,7 +73,11 @@ RUN mkdir -p /etc/R \
            \n rstudio-server stop' \
            > /etc/services.d/rstudio/finish
 
-
+RUN install.r \
+    formatR \
+    caTools \
+    rprojroot \
+    rmarkdown
 COPY userconf.sh /etc/cont-init.d/conf
 EXPOSE 8787
 
