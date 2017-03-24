@@ -303,6 +303,16 @@ sudo install.r \
     rmarkdown
 
 
+##############################
+# Install MS LESION DATA!
+# INSTALL KIRBY21
+##############################
+sudo r -e 'devtools::install_github("muschellij2/papayar")'
+sudo r -e 'devtools::install_github("emsweene/oasis")'
+sudo r -e 'devtools::install_github("muschellij2/malf.templates")'
+sudo r -e 'devtools::install_github("muschellij2/kirby21.t1")'
+
+
 adduser john
 gpasswd -a john sudo
 su - john
