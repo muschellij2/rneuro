@@ -312,6 +312,7 @@ sudo r -e 'devtools::install_github("emsweene/oasis")'
 sudo r -e 'devtools::install_github("muschellij2/malf.templates")'
 sudo r -e 'devtools::install_github("muschellij2/kirby21.t1")'
 
+sudo install.r ROCR 
 
 adduser john
 gpasswd -a john sudo
