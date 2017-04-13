@@ -162,11 +162,14 @@ sudo install.r RNifti
 ## Install divest package
 sudo install.r divest 
 
-sudo install.r oro.dicom oro.nifti 
+sudo install.r oro.dicom  
+
+sudo r -e 'devtools::install_github("muschellij2/oro.nifti")'
 
 sudo install.r WhiteStripe 
 
 sudo r -e 'library(WhiteStripe); download_img_data()'
+
 
 sudo r -e 'devtools::install_github("muschellij2/neurobase")'
 
@@ -238,7 +241,7 @@ sudo cp -R ${FSLSHARE}/talairach-daemon-atlas/* ${FSLDIR}/data/atlases/
 sudo r -e 'devtools::install_github("stnava/ITKR")'
 sudo r -e 'devtools::install_github("stnava/ANTsRCore", upgrade_dependencies = FALSE)'
 sudo r -e 'devtools::install_github("stnava/ANTsR", upgrade_dependencies = FALSE)'
-sudo r -e 'devtools::install_github("muschellij2/extrantsr")'
+sudo r -e 'devtools::install_github("muschellij2/extrantsr", upgrade_dependencies = FALSE)'
 
 # export PATH=/usr/lib/fsl/5.0:$PATH
 # ms.lesion_0.6.tar.gz /ms.lesion.tar.gz
@@ -246,8 +249,7 @@ sudo r -e 'devtools::install_github("muschellij2/extrantsr")'
 # devtools::install_github("muschellij2/ms.lesion", auth_token = auth_token)
 
 
-# RUN cd /home/docker/ && git clone https://github.com/muschellij2/imaging_in_r.git
-# RUN chown docker /home/docker/imaging_in_r
+cd ~/ && git clone https://github.com/muschellij2/imaging_in_r.git
 
 
 
@@ -313,6 +315,7 @@ sudo r -e 'devtools::install_github("muschellij2/malf.templates")'
 sudo r -e 'devtools::install_github("muschellij2/kirby21.t1")'
 
 sudo install.r ROCR 
+sudo install.r ggplot2 scales
 
 adduser john
 gpasswd -a john sudo
@@ -331,7 +334,7 @@ su - john
 # echo "kristin:kristin:1050:513:Kristin:/home/kristin:/bin/bash" > ${fname};
 user=kristin
 sudo useradd -m -d /home/$user -s /bin/bash $user
-for i in $(seq 1 50); do
+for i in $(seq 1 100); do
     user="user${i}";
     num=$((i + 1000));
     sudo useradd -m -d /home/$user -s /bin/bash $user
@@ -339,6 +342,21 @@ for i in $(seq 1 50); do
     # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
 done;
 # newusers ${fname}
+
+cd ~/imaging_in_r && git pull && cd ~/
+
+user=kristin
+cp ~/imaging_in_r/r_scripts/*.R /home/$user/
+cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+user=john
+cp ~/imaging_in_r/r_scripts/*.R /home/$user/
+cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+for i in $(seq 1 100); do
+    user="user${i}";
+    cp ~/imaging_in_r/r_scripts/*.R /home/$user/
+    cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+    # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
+done;
 
 
 

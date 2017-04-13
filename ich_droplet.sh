@@ -170,7 +170,6 @@ sudo install.r divest
 sudo install.r oro.dicom oro.nifti 
 
 sudo r -e 'devtools::install_github("muschellij2/neurobase")'
-
 sudo r -e 'devtools::install_github("muschellij2/fslr")'
 
 ##########################################
@@ -240,6 +239,7 @@ sudo r -e 'devtools::install_github("stnava/ITKR")'
 sudo r -e 'devtools::install_github("stnava/ANTsRCore", upgrade_dependencies = FALSE)'
 sudo r -e 'devtools::install_github("stnava/ANTsR", upgrade_dependencies = FALSE)'
 sudo r -e 'devtools::install_github("muschellij2/extrantsr")'
+sudo r -e 'devtools::install_github("muschellij2/ichseg")'
 
 # export PATH=/usr/lib/fsl/5.0:$PATH
 # ms.lesion_0.6.tar.gz /ms.lesion.tar.gz
@@ -308,12 +308,12 @@ sudo install.r \
 # Install MS LESION DATA!
 # INSTALL KIRBY21
 ##############################
-sudo r -e 'devtools::install_github("muschellij2/papayar")'
-sudo r -e 'devtools::install_github("emsweene/oasis")'
-sudo r -e 'devtools::install_github("muschellij2/malf.templates")'
-sudo r -e 'devtools::install_github("muschellij2/kirby21.t1")'
+# sudo r -e 'devtools::install_github("muschellij2/papayar")'
+# sudo r -e 'devtools::install_github("emsweene/oasis")'
+# sudo r -e 'devtools::install_github("muschellij2/malf.templates")'
+# sudo r -e 'devtools::install_github("muschellij2/kirby21.t1")'
 
-sudo install.r ROCR 
+# sudo install.r ROCR 
 
 adduser john
 gpasswd -a john sudo
@@ -325,21 +325,17 @@ su - john
 # make empty file
 # The > is important!
 #################
-# > /root/batch-user-add.txt
 
 # fname=/root/batch-user-add.txt
-# chmod 0600 $fname
-# echo "kristin:kristin:1050:513:Kristin:/home/kristin:/bin/bash" > ${fname};
-user=kristin
-sudo useradd -m -d /home/$user -s /bin/bash $user
-for i in $(seq 1 50); do
-    user="user${i}";
-    num=$((i + 1000));
-    sudo useradd -m -d /home/$user -s /bin/bash $user
-    echo $user:$user | chpasswd
-    # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
-done;
-# newusers ${fname}
+# > ${fname}
+# sudo useradd -m -d /home/$user -s /bin/bash $user
+# for i in $(seq 1 50); do
+#     user="user${i}";
+#     num=$((i + 1000));
+#     sudo useradd -m -d /home/$user -s /bin/bash $user
+#     echo $user:$user | chpasswd
+#     # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
+# done;
 
 
 
