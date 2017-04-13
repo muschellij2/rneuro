@@ -348,12 +348,15 @@ cd ~/imaging_in_r && git pull && cd ~/
 user=kristin
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
 cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+cp ~/imaging_in_r/output/*.nii.gz /home/$user/
 user=john
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
 cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+cp ~/imaging_in_r/output/*.nii.gz /home/$user/
 for i in $(seq 1 100); do
     user="user${i}";
     cp ~/imaging_in_r/r_scripts/*.R /home/$user/
+    cp ~/imaging_in_r/output/*.nii.gz /home/$user/
     cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
     # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
 done;
