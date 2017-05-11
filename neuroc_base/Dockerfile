@@ -119,7 +119,7 @@ r -e 'devtools::install_github("muschellij2/dcm2niir")' \
 
 # RUN r -e 'devtools::install_github("muschellij2/malf.templates")'
 
-RUN r -e 'devtools::install_github("muschellij2/hcp")'
+RUN r -e 'devtools::install_github("muschellij2/neurohcp")'
 
 ## Install divest package
 RUN install.r \

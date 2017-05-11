@@ -155,7 +155,7 @@ sudo apt-get build-dep -y r-cran-rgl
 sudo r -e 'devtools::install_github("muschellij2/dcm2niir")'
 sudo r -e 'library(dcm2niir); install_dcm2nii();'
 
-sudo r -e 'devtools::install_github("muschellij2/hcp")'
+sudo r -e 'devtools::install_github("muschellij2/neurohcp")'
 
 sudo install.r RNifti 
 
@@ -346,18 +346,24 @@ done;
 cd ~/imaging_in_r && git pull && cd ~/
 
 user=kristin
+rm /home/$user/*.R /home/$user/*.nii.gz
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
+mkdir -p /home/$user/output
 cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
-cp ~/imaging_in_r/output/*.nii.gz /home/$user/
+cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
 user=john
+rm /home/$user/*.R /home/$user/*.nii.gz
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
+mkdir -p /home/$user/output
 cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
-cp ~/imaging_in_r/output/*.nii.gz /home/$user/
+cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
 for i in $(seq 1 100); do
     user="user${i}";
+    rm /home/$user/*.R /home/$user/*.nii.gz
+    mkdir -p /home/$user/output
     cp ~/imaging_in_r/r_scripts/*.R /home/$user/
-    cp ~/imaging_in_r/output/*.nii.gz /home/$user/
     cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+    cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
     # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
 done;
 

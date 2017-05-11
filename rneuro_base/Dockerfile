@@ -96,7 +96,7 @@ RUN \
 r -e 'devtools::install_github("muschellij2/dcm2niir")' \
 && r -e 'library(dcm2niir); install_dcm2nii();'
 
-RUN r -e 'devtools::install_github("muschellij2/hcp")'
+RUN r -e 'devtools::install_github("muschellij2/neurohcp")'
 
 RUN install.r \
     RNifti 
