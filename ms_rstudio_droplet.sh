@@ -152,28 +152,27 @@ sudo apt-get -y update
 # RGL
 sudo apt-get build-dep -y r-cran-rgl 
 
-sudo r -e 'devtools::install_github("muschellij2/dcm2niir")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("dcm2niir")'
 sudo r -e 'library(dcm2niir); install_dcm2nii();'
 
-sudo r -e 'devtools::install_github("muschellij2/neurohcp")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("neurohcp")'
 
-sudo install.r RNifti 
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("RNifti")'
 
 ## Install divest package
-sudo install.r divest 
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("divest")'
 
-sudo install.r oro.dicom  
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("oro.dicom")'
 
-sudo r -e 'devtools::install_github("muschellij2/oro.nifti")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("oro.nifti")'
 
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("WhiteStripe")'
 sudo install.r WhiteStripe 
-
 sudo r -e 'library(WhiteStripe); download_img_data()'
 
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("neurobase")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("fslr")'
 
-sudo r -e 'devtools::install_github("muschellij2/neurobase")'
-
-sudo r -e 'devtools::install_github("muschellij2/fslr")'
 
 ##########################################
 # FSL
@@ -238,10 +237,10 @@ sudo cp -R ${FSLSHARE}/talairach-daemon-atlas/* ${FSLDIR}/data/atlases/
 ##########################################
 # ANTs
 ##########################################
-sudo r -e 'devtools::install_github("stnava/ITKR")'
-sudo r -e 'devtools::install_github("stnava/ANTsRCore", upgrade_dependencies = FALSE)'
-sudo r -e 'devtools::install_github("stnava/ANTsR", upgrade_dependencies = FALSE)'
-sudo r -e 'devtools::install_github("muschellij2/extrantsr", upgrade_dependencies = FALSE)'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("ITKR")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("ANTsRCore", upgrade_dependencies = FALSE)'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("ANTsR", upgrade_dependencies = FALSE)'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("extrantsr", upgrade_dependencies = FALSE)'
 
 # export PATH=/usr/lib/fsl/5.0:$PATH
 # ms.lesion_0.6.tar.gz /ms.lesion.tar.gz
@@ -309,10 +308,10 @@ sudo install.r \
 # Install MS LESION DATA!
 # INSTALL KIRBY21
 ##############################
-sudo r -e 'devtools::install_github("muschellij2/papayar")'
-sudo r -e 'devtools::install_github("emsweene/oasis")'
-sudo r -e 'devtools::install_github("muschellij2/malf.templates")'
-sudo r -e 'devtools::install_github("muschellij2/kirby21.t1")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("papayar")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("oasis")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("malf.templates")'
+sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("kirby21.t1")'
 
 sudo install.r ROCR 
 sudo install.r ggplot2 scales
