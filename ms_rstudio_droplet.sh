@@ -13,11 +13,10 @@ sudo apt-get install -y gnupg2 gnupg
 
 sudo apt-get install -y dirmngr
 
-sudo wget -O- http://neuro.debian.net/lists/xenial.us-tn.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
+sudo wget -O- http://neuro.debian.net/lists/xenial.us-tn.full \
+| sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
 sudo apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
-# RUN wget -O- http://neuro.debian.net/lists/yakkety.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
-# RUN wget -O- http://neuro.debian.net/lists/yakkety.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list \
-# && apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9
+
 
 ## Now install R and littler, 
 sudo apt-get -y update
@@ -76,7 +75,10 @@ sudo apt-get install -y build-essential
 # sudo chmod -R 775 /etc don't do this
 # sudo chown john -R /etc/R
 # sudo chown john /etc/littler.r 
-sudo echo 'options(repos = c(CRAN = "https://cran.rstudio.com/"), download.file.method = "wget")' >> /etc/R/Rprofile.site
+str='options('
+str=${str}'repos = c(CRAN = "https://cran.rstudio.com/")'
+str=${str}', download.file.method = "wget")'
+sudo echo "${str}" >> /etc/R/Rprofile.site
 sudo touch /etc/littler.r
 sudo chmod 777 /etc/littler.r
 sudo echo 'source("/etc/R/Rprofile.site")' >> /etc/littler.r
@@ -105,7 +107,7 @@ sudo /usr/sbin/update-locale LANG=en_US.UTF-8
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export R_BASE_VERSION=3.3.3
+export R_BASE_VERSION=3.4.3
 
 
 
@@ -127,51 +129,68 @@ sudo install.r devtools
 #####################################
 # Install cmake 2.8.9 - DRAMMS friendly
 #####################################
-cd ~/ && \
-wget http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz \
-&& tar xzvf cmake-2.8.9.tar.gz \
-&& cd cmake-2.8.9 \
-&& ./configure \
-&& sudo make \
-&& sudo make install \
-&& cd ~/
+# cd ~/ && \
+# wget http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz \
+# && tar xzvf cmake-2.8.9.tar.gz \
+# && cd cmake-2.8.9 \
+# && ./configure \
+# && sudo make \
+# && sudo make install \
+# && cd ~/
 
 # sudo apt-get install -y cmake-curses-gui
 
 ##############################
 # All the R packages
 ##############################
-sudo r -e 'library(utils); source("http://bioconductor.org/biocLite.R"); biocLite(pkgs = c("Biobase"), suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
+# Bioconductor
+str="library(utils); "
+str=${str}'source("http://bioconductor.org/biocLite.R"); '
+str=${str}'biocLite(pkgs = c("Biobase"), '
+str=${str}'suppressUpdates = TRUE, suppressAutoUpdate = TRUE, ask = FALSE)'
+sudo r -e "${str}"
 
 #################################
 # Had weird URI error for rgl - this fixed it
 #################################
-sudo sed -i -- 's/#deb-src/deb-src/g' /etc/apt/sources.list && sudo sed -i -- 's/# deb-src/deb-src/g' /etc/apt/sources.list
+sudo sed -i -- 's/#deb-src/deb-src/g' /etc/apt/sources.list && \
+sudo sed -i -- 's/# deb-src/deb-src/g' /etc/apt/sources.list
 
 sudo apt-get -y update
 # RGL
 sudo apt-get build-dep -y r-cran-rgl 
 
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("dcm2niir")'
+export neuroc_release="2018/feb/"
+neuroc_install() {
+    str='source("https://neuroconductor.org/neurocLite.R");'
+    inst="neuroc_install('"${1}"', "
+    inst=${inst}" release_repo = make_release_version('"
+    # inst=${inst}${neuroc_release}"'), "
+    inst=${inst}${neuroc_release}"'))"
+    # inst=${inst}"dependencies = TRUE)"
+    str=${str}"${inst}"
+    echo ${str}
+    sudo r -e "${str}"
+}
+
+neuroc_install dcm2niir
 sudo r -e 'library(dcm2niir); install_dcm2nii();'
 
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("neurohcp")'
-
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("RNifti")'
+neuroc_install neurohcp
+neuroc_install RNifti
 
 ## Install divest package
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("divest")'
+neuroc_install divest
 
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("oro.dicom")'
+neuroc_install oro.dicom
 
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("oro.nifti")'
+neuroc_install oro.nifti
 
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("WhiteStripe")'
-sudo install.r WhiteStripe 
+neuroc_install WhiteStripe
 sudo r -e 'library(WhiteStripe); download_img_data()'
 
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("neurobase")'
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("fslr")'
+neuroc_install neurobase
+neuroc_install fslr
 
 
 ##########################################
@@ -234,13 +253,17 @@ sudo cp -R ${FSLSHARE}/mni-structural-atlas/* ${FSLDIR}/data/atlases/
 sudo cp -R ${FSLSHARE}/oxford-thalamic-connectivity-atlas/* ${FSLDIR}/data/atlases/
 sudo cp -R ${FSLSHARE}/talairach-daemon-atlas/* ${FSLDIR}/data/atlases/ 
 
+sudo apt-get update \
+    && sudo apt-get install -y \
+    libhdf5
+
 ##########################################
 # ANTs
 ##########################################
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("ITKR")'
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("ANTsRCore", upgrade_dependencies = FALSE)'
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("ANTsR", upgrade_dependencies = FALSE)'
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("extrantsr", upgrade_dependencies = FALSE)'
+neuroc_install ITKR
+neuroc_install ANTsRCore
+neuroc_install ANTsR
+neuroc_install extrantsr
 
 # export PATH=/usr/lib/fsl/5.0:$PATH
 # ms.lesion_0.6.tar.gz /ms.lesion.tar.gz
@@ -252,13 +275,14 @@ cd ~/ && git clone https://github.com/muschellij2/imaging_in_r.git
 
 
 
-export PANDOC_TEMPLATES_VERSION=1.18
+export PANDOC_TEMPLATES_VERSION=2.0.5
 
 ## Symlink pandoc & standard pandoc templates for use system-wide
 sudo ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin
 sudo ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin
 sudo wget https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz
 sudo mkdir -p /opt/pandoc/templates && sudo tar zxf ${PANDOC_TEMPLATES_VERSION}.tar.gz
+sudo rm ${PANDOC_TEMPLATES_VERSION}.tar.gz
 sudo cp -r pandoc-templates*/* /opt/pandoc/templates && sudo rm -rf pandoc-templates*
 sudo mkdir /root/.pandoc && sudo ln -s /opt/pandoc/templates /root/.pandoc/templates
 sudo apt-get clean
@@ -301,17 +325,18 @@ sudo install.r \
     formatR \
     caTools \
     rprojroot \
-    rmarkdown
+    rmarkdown \
+    here
 
 
 ##############################
 # Install MS LESION DATA!
 # INSTALL KIRBY21
 ##############################
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("papayar")'
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("oasis")'
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("malf.templates")'
-sudo r -e 'source("https://neuroconductor.org/neurocLite.R"); neuroc_install("kirby21.t1")'
+neuroc_install papayar
+neuroc_install oasis
+neuroc_install malf.templates
+neuroc_install kirby21.t1
 
 sudo install.r ROCR 
 sudo install.r ggplot2 scales
@@ -345,23 +370,23 @@ done;
 cd ~/imaging_in_r && git pull && cd ~/
 
 user=kristin
-rm /home/$user/*.R /home/$user/*.nii.gz
+rm -f /home/$user/*.R /home/$user/*.nii.gz
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
 mkdir -p /home/$user/output
-cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+cp ~/imaging_in_r/training01_01_t1.nii.gz /home/$user/
 cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
 user=john
-rm /home/$user/*.R /home/$user/*.nii.gz
+rm -f /home/$user/*.R /home/$user/*.nii.gz
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
 mkdir -p /home/$user/output
-cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+cp ~/imaging_in_r/training01_01_t1.nii.gz /home/$user/
 cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
 for i in $(seq 1 100); do
     user="user${i}";
-    rm /home/$user/*.R /home/$user/*.nii.gz
+    rm -f /home/$user/*.R /home/$user/*.nii.gz
     mkdir -p /home/$user/output
     cp ~/imaging_in_r/r_scripts/*.R /home/$user/
-    cp ~/imaging_in_r/training01_01_mprage.nii.gz /home/$user/
+    cp ~/imaging_in_r/training01_01_t1.nii.gz /home/$user/
     cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
     # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
 done;
