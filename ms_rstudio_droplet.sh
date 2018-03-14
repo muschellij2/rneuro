@@ -270,6 +270,7 @@ neuroc_install extrantsr
 # RUN r -e 'install.packages("ms.lesion.tar.gz", repos = NULL, type = "source")'
 # devtools::install_github("muschellij2/ms.lesion", auth_token = auth_token)
 
+sudo r -e "devtools::install_github('muschellij2/ms.lesion')"
 
 cd ~/ && git clone https://github.com/muschellij2/imaging_in_r.git
 
@@ -372,22 +373,38 @@ cd ~/imaging_in_r && git pull && cd ~/
 user=kristin
 rm -f /home/$user/*.R /home/$user/*.nii.gz
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
+cp ~/imaging_in_r/image_harmonization/*.R /home/$user/
+cp ~/imaging_in_r/image_harmonization/*.csv /home/$user/
+rm /home/$user/index.R
+
 mkdir -p /home/$user/output
 cp ~/imaging_in_r/training01_01_t1.nii.gz /home/$user/
 cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
+cp ~/imaging_in_r/image_harmonization/*.R /home/$user/
+cp ~/imaging_in_r/image_harmonization/*.csv /home/$user/
+rm /home/$user/index.R
+
 user=john
 rm -f /home/$user/*.R /home/$user/*.nii.gz
 cp ~/imaging_in_r/r_scripts/*.R /home/$user/
 mkdir -p /home/$user/output
 cp ~/imaging_in_r/training01_01_t1.nii.gz /home/$user/
 cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
+cp ~/imaging_in_r/image_harmonization/*.R /home/$user/
+cp ~/imaging_in_r/image_harmonization/*.csv /home/$user/
+rm /home/$user/index.R
+
 for i in $(seq 1 100); do
     user="user${i}";
+    echo ${user};
     rm -f /home/$user/*.R /home/$user/*.nii.gz
     mkdir -p /home/$user/output
     cp ~/imaging_in_r/r_scripts/*.R /home/$user/
     cp ~/imaging_in_r/training01_01_t1.nii.gz /home/$user/
     cp ~/imaging_in_r/output/training*.nii.gz /home/$user/output/
+    cp ~/imaging_in_r/image_harmonization/*.R /home/$user/
+    cp ~/imaging_in_r/image_harmonization/*.csv /home/$user/
+    rm /home/$user/index.R    
     # echo "${user}:${user}:${num}:513:${user}:/home/${user}:/bin/bash" >> ${fname};
 done;
 
