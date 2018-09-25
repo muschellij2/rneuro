@@ -160,7 +160,7 @@ sudo apt-get -y update
 # RGL
 sudo apt-get build-dep -y r-cran-rgl 
 
-export neuroc_release="2018/feb/"
+export neuroc_release="2018/Seb/"
 neuroc_install() {
     str='source("https://neuroconductor.org/neurocLite.R");'
     inst="neuroc_install('"${1}"', "
@@ -174,7 +174,7 @@ neuroc_install() {
 }
 
 neuroc_install dcm2niir
-sudo r -e 'library(dcm2niir); install_dcm2nii();'
+sudo r -e 'library(dcm2niir); install_dcm2nii(from_source = TRUE);'
 
 neuroc_install neurohcp
 neuroc_install RNifti
