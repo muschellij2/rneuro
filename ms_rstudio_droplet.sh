@@ -32,8 +32,9 @@ sudo apt-get update \
   && sudo apt-get install -y \
     file \
     git \
+    libcurl4-gnutls-dev \
+    libgit2-dev \
     libapparmor1 \
-    libcurl4-openssl-dev \
     libedit2 \
     libssl-dev \
     lsb-release \
@@ -41,6 +42,7 @@ sudo apt-get update \
     python-setuptools \
     sudo \
     wget 
+    # libcurl4-openssl-dev \
 sudo apt-get update \
     && sudo apt-get install -y \
     zlib1g-dev \
@@ -160,18 +162,38 @@ sudo apt-get -y update
 # RGL
 sudo apt-get build-dep -y r-cran-rgl 
 
-export neuroc_release="2018/Seb/"
+export neuroc_release="2018/Sep/"
+export release_repo="http://neuroconductor.org:8080/releases/${neuroc_release}"
 neuroc_install() {
     str='source("https://neuroconductor.org/neurocLite.R");'
     inst="neuroc_install('"${1}"', "
-    inst=${inst}" release_repo = make_release_version('"
+    inst=${inst}" release_repo = "
+    if [[ -z ${release_repo} ]]; 
+    then 
+    	inst=${inst}" make_release_version('"
     # inst=${inst}${neuroc_release}"'), "
-    inst=${inst}${neuroc_release}"'))"
+    	inst=${inst}${neuroc_release}"'))"
+    else
+    	inst=${inst}" '"${release_repo}"')"
+	fi
     # inst=${inst}"dependencies = TRUE)"
     str=${str}"${inst}"
     echo ${str}
     sudo r -e "${str}"
 }
+
+export cmake_version=3.11
+cmake_url="https://muschellij2.github.io"
+cmake_url=${cmake_url}"/cmake_versions/"
+cver="${cmake_version}.0" ;
+cmake_url=${cmake_url}"cmake-${cver}"
+cmake_opts="--no-check-certificate"
+cmake_system="Linux"
+cmake_url=${cmake_url}-${cmake_system}-x86_64.sh
+# making so no output  
+wget -O cmake.sh ${cmake_opts} ${cmake_url} ;
+sudo sh cmake.sh --skip-license --prefix=/usr
+
 
 neuroc_install dcm2niir
 sudo r -e 'library(dcm2niir); install_dcm2nii(from_source = TRUE);'
@@ -215,7 +237,7 @@ sudo mv ${FSLDIR}/bin/lib* ${FSLDIR}/lib/
 
 export FSLOUTPUTTYPE=NIFTI_GZ
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/fsl/5.0
-export LD_LIBRARY_PATH=${FSLDIR}/lib/:$LD_LIBRARY_PATH:
+export LD_LIBRARY_PATH=${FSLDIR}/lib:$LD_LIBRARY_PATH:
 
 # sudo cp /usr/share/fsl/5.0/etc/fslconf/fsl.sh $FSLDIR/etc/fslconf/fsl.sh
 export FSLOUTPUTTYPE=NIFTI_GZ
@@ -264,6 +286,7 @@ neuroc_install ITKR
 neuroc_install ANTsRCore
 neuroc_install ANTsR
 neuroc_install extrantsr
+neuroc_install smri.process
 
 # export PATH=/usr/lib/fsl/5.0:$PATH
 # ms.lesion_0.6.tar.gz /ms.lesion.tar.gz
